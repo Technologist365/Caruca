@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+<?php foreach(json_decode($this->page) as $page): ?>
+	<div class="panel-heading"><h3><?php echo $page->page_title; ?></h3></div>
+	<p class="page"><?php echo nl2br($page->page_data); ?></p>
+	<div class="panel-footer">
+		Created by <span class="text text-danger"><?php echo $page->admin_firstname.' '.$page->admin_lastname; ?></span> 
+			on <?php echo date("D, jS M Y", strtotime($page->page_created)); ?><?php if($page->page_edited != '0000-00-00 01:00:00'):?>.
+			Last edited on <span class="text text-info"><?php echo date("D, jS M Y", strtotime($page->page_edited)); ?></span><?php endif; ?>
+	</div>
+<?php endforeach; ?>
+</div>

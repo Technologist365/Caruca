@@ -1,0 +1,27 @@
+<?php $cd = $this->session->getSetting("clientdata"); ?>
+<div class="alert alert-info sm">
+	<?php if(!isset($cd['client_id'])): ?>
+	<h4>Welcome, Guest!</h4>
+	<?php else: ?>
+	<h4>Welcome back, <?php echo $cd['client_firstname'].' '.$cd['client_lastname']; ?></h4>
+	<?php endif; ?>
+</div>
+
+<?php $products = json_decode($this->products); foreach($products as $product): ?>
+<div class="well well-sm indexblock">
+  	<div>
+    	<a class="thumbnail" data-lightbox="<?php echo $product->cat_id.'.'.$product->product_id;?>" href="/uploads/<?php echo $product->picture_name; ?>"
+			title="<?php echo $product->picture_caption; ?>">
+    		<img data-lightbox="<?php echo strtolower(str_replace(" ", "", $product->product_name));?>" src="/uploads/<?php echo $product->picture_name; ?>">
+    	</a>
+  	</div>
+	<div class="text">
+		<p class="text text-info"><a href="/products.php?id=<?php echo $product->product_id; ?>"><?php echo $product->product_name; ?></a></p>
+		<p class="text text-about"><?php echo substr($product->product_desc, 0, 200); ?></p>
+		<p class="text text-success">&pound;<?php echo $product->product_price; ?></p>
+	</div>
+	<div class="panel-footer">
+		<a href="/products.php?id=<?php echo $product->product_id; ?>" class="btn btn-default">View</a>
+	</div>
+</div>
+<?php endforeach; ?>

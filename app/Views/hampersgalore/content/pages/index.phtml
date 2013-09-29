@@ -1,0 +1,6 @@
+<?php $cd = $this->session->getSetting("clientdata"); ?>
+<?php if(!isset($cd['client_id'])): ?>
+<h4>Welcome, Guest!</h4>
+<?php else: ?>
+<h4>Welcome back, <?php echo $cd['client_firstname'].' '.$cd['client_lastname']; ?></h4>
+<?php endif; ?>

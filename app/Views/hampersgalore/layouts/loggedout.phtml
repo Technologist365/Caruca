@@ -1,0 +1,82 @@
+<?php $cats = array('Group' => $this->groups, 'Cat' => $this->cats); ?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><?php echo SYSTEM_NAME; ?></title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta name="author" content="Denver Freeburn">
+		<link rel="stylesheet" type="text/css" href="<?php echo SYSTEM_URL; ?>asset/styles/<?php echo strtolower(SYSTEM_THEME); ?>/core.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo SYSTEM_URL; ?>asset/styles/<?php echo strtolower(SYSTEM_THEME); ?>/hg.css">
+		<style type="application/javascript" src="<?php echo SYSTEM_URL; ?>asset/scripts/core.js"></style>
+	</head>
+	
+	<body>
+		<div id="wrap">
+			<div id="content">
+				<div class="header">
+					<div class="logo inblk">
+						<?php echo SYSTEM_NAME; ?>
+					</div>
+					<div class="other-part inblk">
+						<div class="contact">
+							<strong>P: <?php echo SYSTEM_PHONE; ?></strong><br />
+							<strong>E: <?php echo SYSTEM_EMAIL; ?></strong>
+						</div>
+						<div class="login-bar">
+							<form action="/signin.php" method="post" class="form-inline">
+								<div class="btn-group">
+									<div class="inblk">
+										<label for="email">Email Address</label><br />
+										<input type="email" name="email" id="email" class="input-medium" placeholder="Email Address">
+									</div>
+									<div class="inblk">
+										<label for="pass">Password</label><br />
+										<input type="password" name="password" id="pass" class="input-medium" placeholder="Password">
+									</div>
+									<div class="inblk">
+										<label>&nbsp;</label><br />
+										<button type="submit" class="btn btn-small">Sign In</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="nav-bar">
+					<ul>
+						<li><a href="/index.php">Home</a></li>
+						<li><a href="page.php?p=about">About</a></li>
+						<li><a href="products.php">Products</a></li>
+						<li><a href="contact.php">Contact</a></li>
+						<li><a href="/signup.php">Sign Up</a>
+					</ul>
+				</div>
+				<div class="sidebar inblk">
+					<ul class="cats">
+						<?php /* The following segment of code was a complete ballache and I'm treating it as absolutely volitile and fragile! */ 
+							$gItem = count($cats['Group']); ?>
+						<?php for($i = 0; $i < $gItem; $i++): ?>
+						<li class="cat-title"><?php echo $cats['Group'][$i]['group_name']; ?></li>
+						<?php foreach($cats['Cat'] as $cat): ?>
+							<?php if($cat['cat_group'] == $cats['Group'][$i]['group_id']): ?>
+							<li class="cat-entity"><a href="cat.php?id=<?php echo $cat['cat_id']; ?>"><?php echo $cat['cat_label']; ?></a></li>
+							<?php endif; ?>
+						<?php endforeach; ?>
+						<?php endfor; ?>
+					</ul>
+				</div>
+				<div class="content-wrapper inblk">
+					<?php if(isset($this->errmsg)): ?>
+						<div class="alert alert-danger alert-small"><?php echo $this->errmsg; ?></div>
+					<?php unset($this->errmsg); endif;?>
+					
+					<?php echo $this->content_for_template; ?>
+				</div>
+				<div class="footer">
+					&copy; Hampers Galore <?php echo date("Y"); ?> - All Rights Reserved.<br />
+					<a href="http://github.com/gnrdenver/cisium">Cisium</a> ECommerce platform by Denver Freeburn
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

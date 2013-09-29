@@ -1,0 +1,51 @@
+<span class="label label-primary"><a href="/admin/categories.php?s=new">Add New</a></span>
+<p></p>
+<?php if(empty($_GET)): ?>
+<table class="table table-condensed table-striped table-bordered cats table-rounded">
+<?php foreach(json_decode($this->cats) as $cat): ?>
+	<tr class="row-even">
+		<th class="text-right"><?php echo $cat->cat_label; ?></th>
+		<td<?php echo ($cat->cat_active == 0 ? ' class="danger text-center text-danger"' : ' class="success text-center text-success"'); ?>>
+			<strong><?php echo ($cat->cat_active == 0 ? 'No' : 'Yes'); ?></strong>
+		</td>
+		<td class="action-center">
+			<?php if($cat->cat_active == 0): ?>
+			<span class="label label-success"><a href="/admin/categories.php?s=active&id=<?php echo $cat->cat_id; ?>">Activate</a></span>
+			<?php else: ?>
+			<span class="label label-danger"><a href="/admin/categories.php?s=inactive&id=<?php echo $cat->cat_id; ?>">Deactivate</a></span>
+			<?php endif; ?>
+			<span class="label label-info"><a href="/admin/categories.php?s=manage&id=<?php echo $cat->cat_id; ?>">Manage</a></span>
+		</td>
+	</tr>
+<?php endforeach; ?>
+</table>
+<?php elseif($_GET['s'] == 'new'): ?>
+<div class="panel panel-primary panelinside">
+	<div class="panel-heading">Add New Category</div>
+	<form action="/admin/categories.php?s=new" method="post">
+		<div class="form-group">
+			<input type="text" name="category" id="category" class="form-control wd-lg" placeholder="Category Name">
+		</div>
+		<div class="panel-footer">
+			<button type="submit" class="btn btn-success">Add New Category</button>
+			<div class="clearfix"></div>
+		</div>
+	</form>
+</div>
+<?php elseif($_GET['s'] == 'manage'): ?>
+<div class="panel panel-primary panelinside">
+	<div class="panel-heading">Edit Category</div>
+	<form action="/admin/categories.php?<?php echo $_SERVER['QUERY_STRING']; ?>" method="post">
+		<div class="form-group">
+		<?php foreach(json_decode($this->cat) as $cat): ?>
+			<input type="text" name="category" id="category" class="form-control wd-lg" value="<?php echo $cat->cat_label?>">
+			<input type="checkbox" name="active"<?php echo ($cat->cat_active == 0 ? '' : ' checked'); ?>> Hide Category
+		<?php endforeach; ?>
+		</div>
+		<div class="panel-footer">
+			<button type="submit" class="btn btn-success pull-right">Save Changes</button><div class="clearfix"></div>
+			<div class="clearfix"></div>
+		</div>
+	</form>
+</div>
+<?php endif; ?>

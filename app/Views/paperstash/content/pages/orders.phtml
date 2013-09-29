@@ -1,0 +1,23 @@
+<?php if(empty($_GET)): ?>
+<table class="table table-condensed table-striped table-bordered">
+	<tr>
+		<th>ID</th>
+		<th>Status</th>
+		<th>Date</th>
+		<th></th>
+	<tr>
+	<?php foreach(json_decode($this->orders) as $order): ?>
+	<tr<?php echo ($order->status_label == 'Paid' || $order->status_label == 'Completed' ? ' class="success"' : ' class="warning"'); ?>>
+		<td>#<?php echo $order->order_id; ?></td>
+		<td><?php echo $order->status_label; ?></td>
+		<td><?php echo date("D, jS M Y \\a\\t h:i:sa", strtotime($order->order_date)); ?></td>
+		<td>
+			<a href="#" data-order="<?php echo $order->order_id; ?>" class="label label-primary order">View</a>
+			<?php if(($order->status_label != 'Completed' && $order->status_label != 'Pending' && $order->status_label != 'In Transit')): ?>
+			<a href="/orders.php?action=change&id=<?php echo $order->order_id?>&status=5" class="label label-success">Mark Completed</a>
+			<?php endif; ?>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php endif; ?>

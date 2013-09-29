@@ -1,0 +1,68 @@
+<?php $cats = array('Group' => $this->groups, 'Cat' => $this->cats); ?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><?php echo SYSTEM_NAME; ?></title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta name="author" content="Denver Freeburn">
+		<link rel="stylesheet" type="text/css" href="<?php echo SYSTEM_URL; ?>asset/styles/<?php echo strtolower(SYSTEM_THEME); ?>/core.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo SYSTEM_URL; ?>asset/styles/<?php echo strtolower(SYSTEM_THEME); ?>/hg.css">
+		<style type="application/javascript" src="<?php echo SYSTEM_URL; ?>asset/scripts/core.js"></style>
+	</head>
+	
+	<body>
+		<div id="wrap">
+			<div id="content">
+				<div class="header">
+					<div class="logo inblk">
+						<?php echo SYSTEM_NAME; ?>
+					</div>
+					<div class="other-part inblk">
+						<div class="contact">
+							<strong>P: 07871 350197</strong><br />
+							<strong>E: hampersgalore@hotmail.com</strong>
+						</div>
+						<div class="login-bar">
+							<a href="/account.php">My Account</a> |
+							<a href="/cart.php">My Cart (0)</a> |
+							<a href="/signout.php">Sign Out</a>
+						</div>
+					</div>
+				</div>
+				<div class="nav-bar">
+					<ul>
+						<li><a href="/index.php">Home</a></li>
+						<li><a href="page.php?p=about">About</a></li>
+						<li><a href="products.php">Products</a></li>
+						<li><a href="contact.php">Contact</a></li>
+					</ul>
+				</div>
+				<div class="sidebar inblk">
+					<ul class="cats">
+						<?php /* The following segment of code was a complete ballache and I'm treating it as absolutely volitile and fragile! */ 
+							$gItem = count($cats['Group']); ?>
+						<?php for($i = 0; $i < $gItem; $i++): ?>
+						<li class="cat-title"><?php echo $cats['Group'][$i]['group_name']; ?></li>
+						<?php foreach($cats['Cat'] as $cat): ?>
+							<?php if($cat['cat_group'] == $cats['Group'][$i]['group_id']): ?>
+							<li class="cat-entity"><a href="cat.php?id=<?php echo $cat['cat_id']; ?>"><?php echo $cat['cat_label']; ?></a></li>
+							<?php endif; ?>
+						<?php endforeach; ?>
+						<?php endfor; ?>
+					</ul>
+				</div>
+				<div class="content-wrapper inblk">
+					<?php if(isset($this->errmsg)): ?>
+						<div class="alert alert-danger"><?php echo $this->errmsg; ?></div>
+					<?php unset($this->errmsg); endif;?>
+					
+					<?php echo $this->content_for_template; ?>
+				</div>
+				<div class="footer">
+					&copy; Hampers Galore <?php echo date("Y"); ?> - All Rights Reserved.<br />
+					<a href="http://github.com/gnrdenver/cisium">Cisium</a> ECommerce platform by Denver Freeburn
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

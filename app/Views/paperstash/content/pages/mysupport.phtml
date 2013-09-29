@@ -1,0 +1,135 @@
+<?php if(isset($this->tickerrmsg)): ?>
+	<span class="label label-success"><a href="/mysupport.php?action=new">New Ticket</a></span>
+	<span class="label label-info pull-right"><a href="#" class="getInfo" data-lookup="ticket-status">Information</a></span>
+	<p></p>
+	<div class="alert alert-danger"><?php echo $this->tickerrmsg; ?><button type="button" class="close" data-dismiss="alert">&times;</button></div>
+<?php unset($this->tickerrmsg); else: ?>
+	<?php if(empty($_GET)): ?>
+	<span class="label label-success"><a href="/mysupport.php?action=new">New Ticket</a></span>
+	<span class="label label-info pull-right"><a href="#" class="getInfo" data-lookup="ticket-status">Information</a></span>
+	<p></p>
+	<fieldset>
+		<legend>Ticket : List</legend>
+		<table class="table table-bordered table-condensed table-striped">
+			<tr>
+				<th>ID</th>
+				<th>Subject</th>
+				<th>Status</th>
+				<th>Last Response</th>
+				<th></th>
+			</tr>
+			<?php $tickets = json_decode($this->tickets); foreach($tickets as $ticket): ?>
+			<tr>
+				<td>#<?php echo $ticket->ticket_id; ?></td>
+				<td><?php echo $ticket->ticket_subject?></td>
+				<td>
+					<?php if($ticket->status_id == 1): ?>
+					<strong class="text text-success">New</strong>
+					<?php elseif($ticket->status_id == 2): ?>
+					<strong class="text text-warning">Admin Reply</strong>
+					<?php elseif($ticket->status_id == 3): ?>
+					<strong class="text text-primary">Customer Reply</strong>
+					<?php elseif($ticket->status_id == 4): ?>
+					<strong class="text text-primary">In Progress</strong>
+					<?php elseif($ticket->status_id == 5): ?>
+					<strong class="text text-info">Escalated</strong>
+					<?php elseif($ticket->status_id == 6): ?>
+					<strong class="text text-danger">Closed</strong>
+					<?php endif; ?>
+				</td>
+				<td><?php echo date("h:i:sa d-m-Y", strtotime($ticket->ticket_date)); ?></td>
+				<td style="width: 152px; margin: 5px 2px;">
+					<span class="label label-primary"><a href="/mysupport.php?action=view&id=<?php echo $ticket->ticket_id; ?>">View</a></span>
+					<?php if($ticket->status_id != 6): ?>
+					<span class="label label-success"><a href="/mysupport.php?action=reply&id=<?php echo $ticket->ticket_id; ?>">Reply</a></span>
+					<span class="label label-danger"><a href="/mysupport.php?action=close&id=<?php echo $ticket->ticket_id; ?>">Close</a></span>
+					<?php endif; ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</table>
+	</fieldset>
+	<?php elseif($_GET['action'] == 'view'): ?>
+	<span class="label label-success"><a href="/mysupport.php?action=new">New Ticket</a></span>
+	<span class="label label-default"><a href="/mysupport.php">View All</a></span>
+	<?php $t = json_decode($this->ticket); foreach($t as $i): ?>
+	<?php if($i->ticket_status != 6): ?>
+	<span class="label label-danger"><a href="/mysupport.php?action=reply&id=<?php echo $_GET['id']; ?>">Reply</a></span>
+	<?php endif; endforeach; ?>
+	<span class="label label-info pull-right"><a href="#" class="getInfo" data-lookup="ticket-status">Information</a></span>
+	<p></p>
+	<fieldset>
+		<legend>Ticket #<?php echo $_GET['id']; ?> : View</legend>
+		<?php $tickets = json_decode($this->ticket); foreach($tickets as $ticket): ?>
+		<div class="panel panel-primary panel-inside">
+			<div class="panel-heading"><?php echo $ticket->ticket_subject; ?></div>
+			<p><?php echo nl2br($ticket->ticket_message); ?></p>
+			<div class="panel-footer">
+				From 
+				<span class="text text-info">
+					<?php if($ticket->admin_id !== null) { 
+						echo '<span class="text text-danger">'.$ticket->admin_firstname.' '.$ticket->admin_lastname.' (Administrator)</span>';
+					} else {
+						echo '<span class="text text-info">'.$ticket->client_firstname.' '.$ticket->client_lastname.' (Client)</span>';
+					}
+				?>
+				</span> at <?php echo date("h:i:sa \\o\\n D, j M Y", strtotime($ticket->ticket_date))?>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<?php endforeach; ?>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Ticket #<?php echo $_GET['id']; ?> : View Replies</legend>
+		<?php $replies = json_decode($this->replies); ?>
+		<?php if(empty($replies)): ?>
+		<div class="alert alert-danger">
+			This ticket has no replies.
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		<?php else: ?>		
+		<?php foreach($replies as $reply): ?>
+		<div class="panel panel-primary panel-inside">
+			<div class="panel-heading"><?php echo $ticket->ticket_subject; ?></div>
+			<p><?php echo nl2br($reply->ticket_reply); ?></p>
+			<div class="panel-footer">
+				Reply from 
+				<?php echo ($reply->client_id == null ? 
+						'<span class="text text-danger">'.$reply->admin_firstname.' '.$reply->admin_lastname.' (Administrator)</span>' : 
+						'<span class="text text-info">'.$reply->client_firstname.' '.$reply->client_lastname.' (Client)</span>'); 
+				?>
+				at <?php echo date("h:i:sa \\o\\n D, j M Y", strtotime($reply->reply_date))?>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<?php endforeach; ?>
+		<?php endif; ?>
+	</fieldset>
+	<?php elseif($_GET['action'] == 'reply'): ?>
+	<span class="label label-success"><a href="/mysupport.php?action=new">New Ticket</a></span>
+	<span class="label label-default"><a href="/mysupport.php">View All</a></span>
+	<span class="label label-danger"><a href="/mysupport.php?action=view&id=<?php echo $_GET['id']; ?>">Cancel Reply</a></span>
+	<span class="label label-info pull-right"><a href="#" class="getInfo" data-lookup="ticket-status">Information</a></span>
+	
+	<fieldset>
+		<legend>Ticket #<?php echo $_GET['id']; ?> : Reply</legend>
+		<form action="/mysupport.php?<?php echo $_SERVER['QUERY_STRING']; ?>" method="post">
+			<textarea name="ticket_reply" id="ticket_reply" class="form-control ticket-reply"></textarea>
+			<button type="submit" class="btn btn-success">Send Ticket</button>
+		</form>
+	</fieldset>
+	<?php elseif($_GET['action'] == 'new'): ?>
+	<span class="label label-default"><a href="/mysupport.php">View All</a></span>
+	<span class="label label-info pull-right"><a href="#" class="getInfo" data-lookup="ticket-status">Information</a></span>
+	<p></p>
+	<fieldset>
+		<legend>Ticket : New</legend>
+		<form action="/mysupport.php?action=new" method="post">
+			<input type="text" name="subject" id="subject" class="form-control" placeholder="Ticket Subject">
+			<textarea name="new_ticket" id="newticket" class="form-control newticket" placeholder="Ticket text"></textarea>
+			<button type="submit" class="btn btn-success">Send Ticket</button>
+		</form>
+	</fieldset>
+	<?php endif; ?>
+<?php endif; ?>

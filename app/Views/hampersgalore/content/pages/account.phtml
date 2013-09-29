@@ -1,0 +1,33 @@
+<?php foreach($this->account as $user): ?>
+<fieldset>
+	<legend>Your Account <span class="label label-info"><a href="/editaccount.php">Edit</a></span> <span class="label label-important"><a href="/deleteaccount.php">Delete Account</a></span></legend>
+		<table class="table table-striped table-condensed table-bordered">
+			<tr>
+				<th>Your Name</th>
+				<td><?php echo $user['client_firstname'].' '.$user['client_lastname']; ?></td>
+			</tr>
+			<tr>
+				<th>Your Email Address</th>
+				<td><?php echo $user['client_email']; ?></td>
+			</tr>
+			<tr>
+				<th>Your Billing &amp; Shipping Address</th>
+				<td>
+					<?php echo $user['client_line1']; ?><br />
+					<?php echo $user['client_line2']; ?><br />
+					<?php echo $user['client_city']; ?><br />
+					<?php echo $user['client_county']; ?><br />
+					<?php echo $user['client_country']; ?><br />
+					<?php echo $user['client_postcode']; ?>
+				</td>
+			</tr>
+			<tr>
+				<th>Your Phone Number</th>
+				<td><?php echo $user['client_phone']; ?></td>
+			</tr>
+			<tr>
+				<th>Member Since</th>
+				<td><?php echo date("D, jS F Y", strtotime($user['client_joined'])); ?>
+		</table>
+</fieldset>
+<?php endforeach; ?>

@@ -1,0 +1,79 @@
+<?php foreach(json_decode($this->account) as $user): ?>
+<?php if($_GET['a'] == 'view'): ?>
+<fieldset>
+	<legend>Your Account : View</legend>
+		<table class="table table-striped table-condensed table-bordered">
+			<tr>
+				<th>Your Name</th>
+				<td><?php echo $user->admin_firstname.' '.$user->admin_lastname; ?></td>
+			</tr>
+			<tr>
+				<th>Your Email Address</th>
+				<td><?php echo $user->admin_email; ?></td>
+			</tr>
+			<tr>
+				<th>Your Signature</th>
+				<td><div class="well well-sm"><?php echo nl2br($user->admin_signature); ?></div></td>
+			</tr>
+			<?php /*?><tr>
+				<th>Member Since</th>
+				<td><?php echo date("D, jS F Y", strtotime($user['client_joined'])); ?></td>
+			</tr>*/ ?>
+		</table>
+		<span class="label label-warning"><a href="/admin/account.php?a=edit">Edit Account</a></span>
+		<span class="label label-success"><a href="/admin/account.php?a=password">Edit Password</a></span>
+</fieldset>
+<?php elseif($_GET['a'] == 'password'): ?>
+<fieldset>
+	<legend>Your Account : Password</legend>
+	<div class="panel panel-danger panel-inside">
+		<div class="panel-heading">Change Your Password</div>
+		<form action="/admin/account.php?<?php echo $_SERVER['QUERY_STRING']; ?>" method="post">
+			<div class="form-group">
+				<label for="oldpassword">Old Password</label>
+				<input type="password" name="oldpassword" id="oldpassword" class="form-control wd-md" placeholder="Old Password">
+			</div>
+			<div class="form-group">
+				<label for="password">New Password</label>
+				<input type="password" name="newpassword" id="newpassword" class="form-control wd-md" placeholder="New Password">
+			</div>
+			<div class="form-group">
+				<label for="password">Confirm New Password</label>
+				<input type="password" name="confirmpassword" id="confirmpassword" class="form-control wd-md" placeholder="Confirm Password">
+			</div>
+			<div class="panel-footer">
+				<button type="submit" class="btn btn-success pull-right">Save Changes</button><div class="clearfix"></div>
+			</div>
+		</form>
+	</div>
+</fieldset>
+<?php elseif($_GET['a'] == 'edit'): ?>
+<fieldset>
+	<legend>Your Account : Edit</legend>
+	<form action="/admin/account.php?<?php echo $_SERVER['QUERY_STRING']; ?>" method="post">
+		<div class="panel panel-info panel-inside">
+			<div class="panel-heading">My Details</div>
+			<div class="form-group inblk">
+				<label for="firstname">First Name</label>
+				<input type="text" name="firstname" id="firstname" class="form-control wd-md" value="<?php echo $user->admin_firstname; ?>">
+			</div>
+			<div class="form-group inblk">
+				<label for="lastname">Last Name</label>
+				<input type="text" name="lastname" id="lastname" class="form-control wd-md" value="<?php echo $user->admin_lastname; ?>">
+			</div>
+			<div class="form-group inblk">
+				<label for="email">Email Addresss</label>
+				<input type="email" name="email" id="email" class="form-control wd-md" value="<?php echo $user->admin_email; ?>">
+			</div>
+			<div class="form-group inblk">
+				<label for="signature">Signature</label>
+				<textarea name="signature" id="signature" class="form-control wd-md"><?php echo $user->admin_signature; ?></textarea>
+			</div>
+			<div class="panel-footer">
+				<button type="submit" class="btn btn-success pull-right">Save Changes</button><div class="clearfix"></div>
+			</div>
+		</div>
+	</form>
+</fieldset>
+<?php endif; ?>
+<?php endforeach; ?>

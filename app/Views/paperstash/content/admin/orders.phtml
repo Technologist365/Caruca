@@ -1,0 +1,53 @@
+<?php if(empty($_GET)): ?>
+<table class="table table-condensed table-striped table-bordered">
+	<tr>
+		<th>ID</th>
+		<th>Status</th>
+		<th>Date</th>
+		<th></th>
+	<tr>
+	<?php foreach(json_decode($this->orders) as $order): ?>
+	<tr<?php echo ($order->status_label == 'Paid' || $order->status_label == 'Completed' ? ' class="success"' : ' class="warning"'); ?>>
+		<td>#<?php echo $order->order_id; ?></td>
+		<td><?php echo $order->status_label; ?></td>
+		<td><?php echo date("D, jS M Y \\a\\t h:i:sa", strtotime($order->order_date)); ?></td>
+		<td>
+			<a href="/admin/orders.php?action=view&id=<?php echo $order->order_id; ?>" class="label label-primary order">View</a>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php elseif($_GET['action'] == 'view'): ?>
+<?php foreach(json_decode($this->orders) as $order): ?>
+<div class="panel panel-primary">
+	<div class="panel-heading">Order #<?php echo $order->order_id; ?> for <?php echo $order->client_firstname.' '.$order->client_lastname; ?></div>
+	<p>
+		<?php $items = unserialize($order->order_data); ?>
+		<?php foreach($items as $item): ?>
+			<p class="text text-danger"><?php echo $item;?></p>
+		<?php endforeach; ?>
+	</p>
+	<div class="panel-footer">
+		Status: <?php if($order->status_label == 'Paid'): ?>
+		<span class="text text-success">Paid</span>
+		<?php else: ?>
+		<span class="text text-success"><?php echo $order->status_label; ?></span>
+		<?php endif; ?>
+		
+		<form class="pull-right" action="/admin/orders.php" method="get">
+			<input type="hidden" name="action" value="change">
+			<input type="hidden" name="id" value="<?php echo $order->order_id; ?>">
+			<select name="status" id="status" class="form-control">
+				<option value="1">Pending</option>
+				<option value="2">Paid</option>
+				<option value="3">In Transit</option>
+				<option value="4">Delivered</option>
+				<option value="5">Completed</option>
+			</select>
+			<button type="submit" class="btn btn-success">Update</button>
+		</form>
+		<div class="clearfix"></div>
+	</div>
+</div>
+<?php endforeach; ?>
+<?php endif; ?>

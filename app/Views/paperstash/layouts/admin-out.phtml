@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><?php echo SYSTEM_NAME; ?></title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta name="author" content="Denver Freeburn">
+		<meta name="generator" content="<?php echo systemname.' '.systemvers; ?>">
+		<link rel="favicon" type="image/jpg" href="<?php echo SYSTEM_URL; ?>asset/styles/<?php echo strtolower(SYSTEM_THEME); ?>/img/logo.jpg">
+		<link rel="shortcut icon" type="image/jpg" href="<?php echo SYSTEM_URL; ?>asset/styles/<?php echo strtolower(SYSTEM_THEME); ?>/img/logo.jpg">
+		<link rel="stylesheet" type="text/css" href="<?php echo SYSTEM_URL; ?>asset/styles/<?php echo strtolower(SYSTEM_THEME); ?>/core.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo SYSTEM_URL; ?>asset/styles/<?php echo strtolower(SYSTEM_THEME); ?>/admin.css">
+		<link rel="stylesheet" type="text/css" href="/asset/styles/lightbox.css">
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script type="application/javascript" src="<?php echo SYSTEM_URL; ?>asset/scripts/core.js"></script>
+		<script type="application/javascript" src="<?php echo SYSTEM_URL; ?>asset/scripts/jsu.js"></script>
+		<script type="application/javascript" src="<?php echo SYSTEM_URL; ?>asset/scripts/admin.js"></script>
+		<script type="application/javascript" src="/asset/scripts/lightbox-2.6.min.js"></script>
+		<script type="application/javascript" src="/asset/scripts/modernizr.custom.js"></script>
+	</head>
+	
+	<body>
+		<div id="wrap">
+			<div id="content">
+				<div class="header">
+					<div class="well well-sm first-part inblk">
+						<div class="logo">
+							<img src="<?php echo SYSTEM_URL; ?>asset/styles/<?php echo strtolower(SYSTEM_THEME); ?>/img/logo.png">
+						</div>
+					</div>
+					<div class="well well-sm other-part inblk">
+						<div class="contact">
+							<p class="p"><?php echo SYSTEM_DESC; ?></p>
+							<strong>P: <?php echo SYSTEM_PHONE; ?></strong><br>
+							<strong>E: <?php echo SYSTEM_EMAIL; ?></strong>
+						</div>
+					</div>
+					<div class="well well-sm cart inblk">
+						<div class="dropdown-header"><strong>Information</strong></div>
+						<p class="p inblk"><?php /* /cart.php?action=flush*/?>
+							<a href="/cart.php">
+								<span class="label label-success">View Cart</span>
+							</a>
+						</p>
+						<p class="inblk">
+							<?php if(FACEBOOK): ?>
+							<a href="<?php echo FACEBOOK; ?>"><span class="label label-primary">Facebook</span></a>
+							<?php endif; ?>
+							<?php if(TWITTER): ?>
+							<a href="<?php echo TWITTER; ?>"><span class="label label-info">Twitter</span></a>
+							<?php endif; ?>
+						</p>
+					</div>
+				</div>
+				<div class="navbar navbar-inverse" role="navigation">
+					<ul class="nav navbar-nav">
+						<a class="navbar-brand" href="/"><?php echo SYSTEM_NAME; ?></a>
+						<li><a href="/index.php">Home</a></li>
+					</ul>
+				</div>
+				<div class="content-wrapper inblk">
+					<div id="msglog"></div>
+					<?php if(isset($this->errmsg)): ?>
+						<div class="alert alert-danger"><?php echo $this->errmsg; ?><button type="button" class="close" data-dismiss="alert">&times;</button></div>
+					<?php unset($this->errmsg); endif;?>
+					<?php if(isset($this->sucmsg)): ?>
+						<div class="alert alert-success"><?php echo $this->sucmsg; ?><button type="button" class="close" data-dismiss="alert">&times;</button></div>
+					<?php unset($this->sucmsg); endif; ?>
+					
+					<?php echo $this->content_for_template; ?>
+				</div>
+				<div class="footer">
+					&copy; <?php echo SYSTEM_NAME; ?> <?php echo date("Y"); ?> - All Rights Reserved.<br />
+					<a href="http://github.com/gnrdenver/cisium">Caruca</a> Shopping Cart by <a href="http://denverfreeburn.com">Denver Freeburn</a>.
+				</div>
+			</div>
+		</div>
+		<div id="ajaxReturnModule"></div><div class="clearfix"></div>
+	<script type="application/javascript">
+		<?php //echo SYSTEM_ANALYTICS; ?>
+	</script>
+	</body>
+</html>

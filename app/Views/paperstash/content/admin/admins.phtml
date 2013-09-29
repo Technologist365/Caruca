@@ -1,0 +1,116 @@
+<span class="label label-success"><a href="/admin/admins.php?s=new">Add New</a></span>
+<p></p>
+<div class="alert alert-info">When adding a new admin, please be sure to use the client email address the new admin has.</div>
+<p></p>
+<?php if(empty($_GET)): ?>
+<table class="table table-striped table-condensed table-bordered">
+	<tr>
+		<th>Username</th>
+		<th>Name</th>
+		<th>Email</th>
+		<th></th>
+	</tr>
+<?php foreach(json_decode($this->admin) as $admin): ?>
+	<tr<?php echo ($admin->a == 1 ? ' class="success"' : ' class="danger"'); ?>>
+		<td><?php echo $admin->admin_username; ?></td>
+		<td><?php echo $admin->admin_firstname . ' ' . $admin->admin_lastname; ?></td>
+		<td><?php echo $admin->admin_email; ?></td>
+		<td>
+			<span class="label label-primary">
+				<a href="/admin/admins.php?s=manage&id=<?php echo $admin->admin_id; ?>">Manage</a>
+			</span> &nbsp;
+			<?php if($admin->a == 1): ?>
+			<span class="label label-danger">
+				<a href="/admin/admins.php?s=lock&id=<?php echo $admin->admin_id; ?>">Lock</a>
+			</span>
+			<?php else: ?>
+			<span class="label label-success">
+				<a href="/admin/admins.php?s=unlock&id=<?php echo $admin->admin_id; ?>">Unlock</a>
+			</span>
+			<?php endif; ?>
+		</td>
+	</tr>
+<?php endforeach; ?>
+</table>
+<?php elseif($_GET['s'] == 'new'): ?>
+<div class="panel panelinside panel-primary">
+	<div class="panel-heading">Add New Administrator</div>
+	<form action="/admin/admins.php?s=new" method="post">
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input type="text" name="username" id="username" class="form-control wd-lg" placeholder="Username">
+		</div>
+		<div class="form-group">
+			<label for="firstname">First Name</label>
+			<input type="text" name="firstname" id="firstname" class="form-control wd-lg" placeholder="First Name">
+		</div>
+		<div class="form-group">
+			<label for="lastname">Last Name</label>
+			<input type="text" name="lastname" id="lastname" class="form-control wd-lg" placeholder="Last Name">
+		</div>
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input type="email" name="email" id="email" class="form-control wd-lg" placeholder="Email" value="<?php if(isset($_POST['email'])) { echo $_POST['email']; }?>">
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" name="password" id="password" class="form-control wd-lg" placeholder="Password">
+		</div>
+		<?php /*?><div class="form-group">
+			<label>Permissions</label>
+			<table>
+				<tr>
+					<td><input type="checkbox" name="can_view_admins">Can View Admins</td>
+					<td><input type="checkbox" name="can_manage_admins">Can Manage Admins</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="can_view_members">Can View Members</td>
+					<td><input type="checkbox" name="can_manage_members">Can Manage Members</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="can_view_cats">Can View Categories</td>
+					<td><input type="checkbox" name="can_manage_cats">Can Manage Categories</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="can_view_pages">Can View Pages</td>
+					<td><input type="checkbox" name="can_manage_pages">Can Manage Pages</td>
+				</tr>
+			</table>
+		</div>*/?>
+		<div class="panel-footer">
+			<button type="submit" class="btn btn-success pull-right">Add New Administrator</button><div class="clearfix"></div>
+		</div>
+	</form>
+</div>
+<?php elseif($_GET['s'] == 'manage'): ?>
+<div class="panel panelinside panel-primary">
+	<div class="panel-heading">Edit Administrator</div>
+	<?php foreach(json_decode($this->admin) as $admin): ?>
+	<form action="/admin/admins.php?s=new" method="post">
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input type="text" name="username" id="username" class="form-control wd-lg" value="<?php echo $admin->admin_username; ?>">
+		</div>
+		<div class="form-group">
+			<label for="firstname">First Name</label>
+			<input type="text" name="firstname" id="firstname" class="form-control wd-lg" value="<?php echo $admin->admin_firstname; ?>">
+		</div>
+		<div class="form-group">
+			<label for="lastname">Last Name</label>
+			<input type="text" name="lastname" id="lastname" class="form-control wd-lg" value="<?php echo $admin->admin_lastname; ?>">
+		</div>
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input type="email" name="email" id="email" class="form-control wd-lg" value="<?php echo $admin->admin_email; ?>">
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" name="password" id="password" class="form-control wd-lg" placeholder="Password">
+		</div>
+		<div class="panel-footer">
+			<button type="submit" class="btn btn-success pull-right">Save Details</button><div class="clearfix"></div>
+		</div>
+	</form>
+	<?php endforeach; ?>
+</div>
+<?php endif; ?>

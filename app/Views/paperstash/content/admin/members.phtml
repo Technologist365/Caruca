@@ -1,0 +1,21 @@
+<table class="table table-condensed table-bordered table-striped">
+	<tr>
+		<th>Name</th>
+		<th>Email Address</th>
+		<th></th>
+	</tr>
+	<?php foreach(json_decode($this->members) as $member): ?>
+	<tr<?php echo ($member->l == 0 ? ' class="success"' : ' class="danger"'); ?>>
+		<td><?php echo $member->client_firstname . ' ' . $member->client_lastname; ?></td>
+		<td><?php echo $member->client_email; ?></td>
+		<td>
+			<?php if($member->l == '0'): ?>
+			<span class="label label-danger"><a href="/admin/members.php?s=lock&id=<?php echo $member->client_id; ?>">Lock</a></span>
+			<span class="label label-info"><a href="/admin/support.php?action=new&id=<?php echo $member->client_id; ?>">Send Ticket</a></span>
+			<?php else: ?>
+			<span class="label label-success"><a href="/admin/members.php?s=unlock&id=<?php echo $member->client_id; ?>">Unlock</a></span>
+			<?php endif; ?>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+</table>

@@ -1,0 +1,136 @@
+<span class="label label-primary"><a href="/admin/products.php?action=new">Add New</a></span>
+<?php if(isset($_GET['action'])) { if($_GET['action'] == 'images') {?>
+<span class="label label-info"><a href="/admin/products.php?action=addimage&id=<?php echo $_GET['id']; ?>">Add Image</a></span><?php }}?>
+<p></p>
+<?php if(empty($_GET)): ?>
+<table class="table table-bordered table-striped table-condensed">
+	<tr>
+		<th>ID</th>
+		<th>Product Name</th>
+		<th>Price</th>
+		<th>Category</th>
+		<th>Action</th>
+	</tr>
+	<?php foreach(json_decode($this->products) as $product): ?>
+	<tr>
+		<td><?php echo $product->product_id; ?></td>
+		<td><?php echo $product->product_name; ?></td>
+		<td>&pound;<?php echo $product->product_price; ?></td>
+		<td><?php echo $product->cat_label; ?></td>
+		<td>
+			<span class="label label-info"><a href="/admin/products.php?action=images&id=<?php echo $product->product_id; ?>">Images</a></span>
+			<span class="label label-warning"><a href="/admin/products.php?action=edit&id=<?php echo $product->product_id; ?>">Edit</a></span>
+			<span class="label label-danger"><a href="/admin/products.php?action=delete&id=<?php echo $product->product_id; ?>">Delete</a></span>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php elseif($_GET['action'] == 'edit'):?>
+<?php foreach(json_decode($this->product) as $product): ?>
+<div class="panel panel-warning">
+	<div class="panel-heading">Edit Product</div>
+	<form action="/admin/products.php?<?php echo $_SERVER['QUERY_STRING']; ?>" method="post">
+		<div class="form-group">
+			<label for="name">Name</label>
+			<input type="text" name="name" id="name" class="form-control wd-lg" value="<?php echo $product->product_name; ?>">
+		</div>
+		<div class="form-group">
+			<label for="cat">Category</label>
+			<select name="cat" id="cat" class="form-control wd-lg">
+				<option value="<?php echo $product->cat_id; ?>"><?php echo $product->cat_label; ?></option>
+				<option disabled>----</option>
+				<?php foreach(json_decode($this->cats) as $cat): ?>
+				<option value="<?php echo $cat->cat_id; ?>"><?php echo $cat->cat_label; ?></option>
+				<?php endforeach; ?>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="desc">Description</label> <span class="text-muted pull-right">This should be less than 65535 characters long.</span>
+			<textarea name="desc" id="desc" class="form-control wd-lg"><?php echo $product->product_desc; ?></textarea>
+		</div>
+		<div class="form-group">
+			<label for="price">Price</label> <span class="text-muted pull-right">Please do not enter a currency sign here.</span>
+			<input type="text" name="price" id="price" class="form-control wd-lg" value="<?php echo $product->product_price; ?>">
+		</div>
+		<div class="form-group">
+			<label for="weight">Weight in KG</label> <span class="text-muted pull-right">The weight of the product in Kilograms.</span>
+			<input type="text" name="weight" id="weight" class="form-control wd-lg" value="<?php echo $product->product_weight; ?>">
+		</div>
+		<div class="panel-footer">
+			<button type="submit" class="btn btn-success pull-right">Save Changes</button>
+			<div class="clearfix"></div>
+		</div>
+	</form>
+</div>
+<?php endforeach; ?>
+<?php elseif($_GET['action'] == 'new'): ?>
+<div class="panel panel-primary">
+	<div class="panel-heading">Add New Product</div>
+	<form action="/admin/products.php?<?php echo $_SERVER['QUERY_STRING']; ?>" method="post">
+		<div class="form-group">
+			<label for="name">Name</label>
+			<input type="text" name="name" id="name" class="form-control wd-lg">
+		</div>
+		<div class="form-group">
+			<label for="cat">Category</label>
+			<select name="cat" id="cat" class="form-control wd-lg">
+				<?php foreach(json_decode($this->cats) as $cat): ?>
+				<option value="<?php echo $cat->cat_id; ?>"><?php echo $cat->cat_label; ?></option>
+				<?php endforeach; ?>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="desc">Description</label> <span class="text-muted pull-right">This should be less than 65535 characters long.</span>
+			<textarea name="desc" id="desc" class="form-control wd-lg"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="price">Price</label> <span class="text-muted pull-right">Please do not enter a currency sign here.</span>
+			<input type="text" name="price" id="price" class="form-control wd-lg"">
+		</div>
+		<div class="form-group">
+			<label for="stock">Stock Level</label> <span class="text-muted pull-right">This is subtracted by one for every purchase made.</span>
+			<input type="text" name="stock" id="stock" class="form-control wd-lg">
+		</div>
+		<div class="panel-footer">
+			<button type="submit" class="btn btn-success pull-right">Save Changes</button>
+			<div class="clearfix"></div>
+		</div>
+	</form>
+</div>
+<?php elseif($_GET['action'] == 'images'): ?>
+<div class="alert alert-info">Please delete the image labelled "null" before adding more.</div>
+<?php foreach(json_decode($this->images) as $product): ?>
+<div class="well well-sm indexblock">
+  	<div>
+  		<?php if($product->picture_main == 1): ?>
+  		<p><span class="label label-warning">Main Image</span></p>
+  		<?php endif; ?>
+    	<a class="thumbnail" data-lightbox="<?php echo $product->cat_id.'.'.$product->product_id;?>" href="/uploads/<?php echo $product->picture_name; ?>"
+			title="<?php echo $product->picture_caption; ?>">
+    		<img data-lightbox="<?php echo strtolower(str_replace(" ", "", $product->product_name));?>" src="/uploads/<?php echo $product->picture_name; ?>">
+    	</a>
+    	<h3><?php echo $product->picture_caption; ?></h3>
+  	</div>
+	<div class="panel-footer">
+		<span class="label label-danger"><a href="/admin/products.php?action=deleteimage&id=<?php echo $product->picture_id; ?>&pid=<?php echo $product->product_id; ?>">Delete Image</a></span>
+	</div>
+</div>
+<?php endforeach; ?>
+<?php elseif($_GET['action'] == 'addimage'): ?>
+<div class="panel panel-success">
+	<div class="panel-heading">Add New Image</div>
+	<form action="/admin/products.php?<?php echo $_SERVER['QUERY_STRING']; ?>" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label for="image">Browse for Image</label>
+			<input type="file" name="image" id="image" class="form-control wd-lg">
+		</div>
+		<div class="form-group">
+			<label for="caption">Caption</label>
+			<input type="text" name="caption" id="caption" class="form-control wd-lg">
+		</div>
+		<div class="panel-footer">
+			<button type="submit" class="btn btn-success pull-right">Add Image</button>
+			<div class="clearfix"></div>
+		</div>
+	</form>
+</div>
+<?php endif; ?>

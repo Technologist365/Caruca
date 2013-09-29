@@ -1,0 +1,49 @@
+<?php $paypal = json_decode($this->paypal); ?>
+<h3>Hi, <?php echo $this->creds['client_firstname']; ?></h3>
+<p>
+	You're about to be redirected to PayPal to complete your transaction.<br> 
+	Before that happens, we'll just review your order.
+</p>
+<div class="alert alert-info well-sm">
+	<strong>Please Note:</strong> 
+	There may be a small discrepancy between the prices shown here and on PayPal. Where this discrepancy exists, the PayPal price will
+	be the final price.
+</div>
+<form id="paypal_checkout" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+    <input name="cmd" value="_cart" type="hidden">
+    <input name="upload" value="1" type="hidden">
+    <input name="no_note" value="0" type="hidden">
+    <input name="bn" value="PP-BuyNowBF" type="hidden">
+    <input name="rm" value="2" type="hidden">
+ 
+    <input name="business" value="<?php echo $paypal->business; ?>" type="hidden">
+    <input name="handling_cart" value="0" type="hidden">
+    <input name="currency_code" value="<?php echo $paypal->currency; ?>" type="hidden">
+    <input name="lc" value="<?php echo $paypal->location; ?>" type="hidden">
+    <input name="return" value="<?php echo $paypal->returnurl; ?>" type="hidden">
+    <input name="cbt" value="<?php echo $paypal->returntxt; ?>" type="hidden">
+    <input name="cancel_return" value="<?php echo $paypal->cancelurl; ?>" type="hidden">
+    <input name="weight_unit" value="<?php echo $paypal->weight_unit; ?>" type="hidden">
+    <input name="custom" value="" type="hidden">
+	<table class="table table-condensed table-striped table-bordered">
+    	<tr>
+    		<th>Name</th>
+    		<th>Quantity</th>
+    	</tr>
+	<?php $i=1; foreach($this->items as $item): ?>
+		<tr>
+			<td class="text text-primary"><?php echo $item['name']; ?></td>
+			<td><?php echo $item['qty']; ?></td>
+		    <div id="item_<?php echo $i; ?>" class="itemwrap">
+		        <input name="item_name_<?php echo $i; ?>" value="<?php echo $item['name']; ?>" type="hidden">
+		        <input name="quantity_<?php echo $i; ?>" value="<?php echo $item['qty']; ?>" type="hidden">
+		        <input name="amount_<?php echo $i; ?>" value="<?php echo ($item['price']+number_format((($item['price'] / 100) * 20), 2)); ?>" type="hidden">
+		        <input name="weight_<?php echo $i; ?>" value="<?php echo number_format($item['weight'], 2); ?>" type="hidden">
+		    </div>
+    
+ 	<?php $i++; endforeach; ?>
+ 	</table>
+	<?php /*?><input name="shipping_1" value="<?php echo $paypal->shipping; ?>" type="hidden">*/?>
+ 	
+    <button id="ppcheckoutbtn" class="btn btn-success" type="submit">Pay with PayPal</button>
+</form>

@@ -1,0 +1,62 @@
+<?php if(isset($this->errmsg)): ?>
+<a href="/products.php" class="btn btn-primary"> &lt;- Continue Shopping</a>
+<?php else: ?>
+	<table class="table table-bordered table-condensed table-striped">
+		<tr>
+			<th>Product</th>
+			<th>Price</th>
+			<th>Quantity</th>
+		</tr>
+	<?php $z=0; foreach($this->cart as $product_id => $qty):
+		$product = $this->product->populateCart($product_id); ?>
+		<tr>
+			<td><?php echo $product[0]['product_name']; ?></td>
+			<td>&pound;<?php echo $p_price = number_format($product[0]['product_price'] * $qty, 2); ?></td>
+			<td><?php echo $qty; ?></td>
+		</tr>
+		<?php  
+			$pp_cart[] = array();
+			$pp_cart[$z] = array('name' => $product[0]['product_name'], 'price' => $product[0]['product_price'], 'qty' => "{$qty}", 'weight' => $product[0]['product_weight']);
+	 		++$z; 
+	 		endforeach; 
+	 	?>
+	
+	<?php $this->session->setSetting("items", $pp_cart);?>
+	</table>
+<table class="table table-bordered table-striped table-condensed pull-right" style="width: 406px;">
+<?php $i=0; foreach($this->cart as $product_id => $qty): 
+$items = $this->product->buildTotal($product_id);
+(array)$is[$i] = number_format($items * $qty, 2);
+++$i; endforeach; $sum = array_sum($is);
+?>
+	<tr>
+		<th>Sub-total</th>
+		<td>
+			&pound;<?php echo $price = number_format(($sum * $qty), 2); ?>
+		</td>
+	</tr>
+	<tr>
+		<th class="text text-danger">Shipping</th>
+		<td class="text text-danger">
+			Calculated by PayPal
+		</td>
+	</tr>
+	<tr>
+		<th class="text text-danger">Tax (20%)</th>
+		<td class="text text-danger">&pound;<?php echo $tax = number_format((($price * 20) / 100), 2); ?></td>
+	</tr>
+	<tr class="success">
+		<th>Total</th>
+		<td>&pound;<?php $total = ($price + $tax) + (float)0.01; 
+			echo number_format($total, 2); $this->session->setSetting("total", number_format($total, 2)); ?>
+		</td>
+	</tr>
+</table>
+<div class="clearfix"></div>
+<div>
+	<a href="/products.php" class="btn btn-primary"> &lt;- Continue Shopping</a>
+	<a href="/cart.php?action=empty" class="btn btn-danger">Empty Cart</a>
+	<a href="/checkout.php" class="btn btn-success pull-right">Checkout -&gt;</a>
+</div>
+<div class="clearfix"></div>
+<?php endif; ?>

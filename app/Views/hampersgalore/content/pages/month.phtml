@@ -1,0 +1,35 @@
+<table id="upcoming-events">
+	<tr>
+		<th colspan="5">
+			<h2>
+			<?php if(isset($_GET['ym'])): ?>
+				Events for <?php echo date("F, Y", strtotime($_GET['ym'])); ?>
+			<?php else: ?>
+				Events for <?php echo date("F, Y", time()); ?>
+			<?php endif; ?>
+			</h2>
+		</th>
+	</tr>
+	<?php if(empty($this->events)): ?>
+	<tr>
+		<td colspan="5"><div class="alert alert-info">- No Events Planned -</div></td>
+	</tr>
+	<?php else: ?>
+		<tr>
+			<th>Name</th>
+			<th>Location</th>
+			<th>Starts</th>
+			<th>Ends</th>
+			<th>Description</th>
+		</tr>
+		<?php foreach($this->events as $event): ?>
+		<tr>
+			<td><?php echo $event['event_name']; ?></td>
+			<td><?php echo $event['event_location']; ?></td>
+			<td><?php echo date("D, j \\a\\t h:ia", strtotime($event['event_start'])); ?></td>
+			<td><?php echo date("D, j \\a\\t h:ia", strtotime($event['event_over'])); ?></td>
+			<td><?php echo $event['event_description']; ?></td>
+		</tr>
+		<?php endforeach; ?>
+	<?php endif; ?>
+</table>

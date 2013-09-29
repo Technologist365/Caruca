@@ -1,0 +1,240 @@
+@CHARSET "UTF-8";
+
+html {
+	background: transparent url(img/background_tiedye.jpg) top left no-repeat fixed;
+	height: 101%;
+}
+
+body {
+	width: 1000px;
+	margin: 0 auto;
+	background: #fff;
+	font-size: 14px;
+	font-family: Tahoma;
+	box-shadow: 0 0 15px #777;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	margin: 0;
+	padding: 0;
+}
+
+.navbar {
+	margin: 0 5px;
+}
+
+.footer {
+	text-align: center;
+	font-size: 12px;
+	color: #777;
+	padding: 5px;
+	border-top: 1px solid #787878;
+}
+
+.sm {
+	padding: 9px;
+}
+
+.inblk {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.header {
+	height: 130px;
+	margin-top: -10px;
+}
+
+.first-part,.other-part,.cart {
+	margin: 10px 5px;
+}
+
+.panel,.well {
+	margin: 0;
+}
+
+.panel {
+	margin: 5px;
+}
+
+.header .well {
+	margin-top: 15px;
+}
+
+.panel p {
+	margin: 5px;
+}
+
+.other-part,.panel p.p {
+	width: 382px;
+	text-align: center;
+}
+
+.cat-title {
+	background: #232323;
+	color: #fff;
+	text-align: center;
+	padding: 3px 5px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+ul.cats {
+	margin: 0;
+	padding: 0;
+}
+
+ul.cats, ul.cats li {
+	list-style: none;
+}
+
+ ul.cats li a {
+	display: block;
+ 	padding: 2px 5px;
+ 	text-decoration: none;
+ 	border-bottom: 1px dotted #aaa;
+ 	color: #666;
+ }
+
+ul.cats li a:hover {
+	background: #454545;
+	color: #fff;
+}
+
+.sidebar {
+	width: 170px;
+	margin: 5px;
+}
+
+.content-wrapper {
+	padding: 5px 0;
+	width: 800px;
+}
+
+button.btn.small {
+	margin: 0;
+	padding: 0;
+}
+
+.blk {
+	display: block;
+	vertical-align: top;
+}
+
+.wd-md {
+	width: 350px !important;
+}
+
+.panelinside {
+	width: 363px;
+	margin: 0 auto;
+}.panelinsides form,.panelinside form {
+	margin: 5px;
+}.panelinsides form textarea {
+	height: 250px;
+	resize: none;
+}
+
+div.panel-inside div.panel-footer {
+	margin: 0px;
+}div.panel-inside div.form-group {
+	padding: 5px;
+}
+
+.panel img {
+	height: 15px;
+	width: 16px;
+}
+
+.label a {
+	color: #fff;
+	font-size: 12px;
+}
+
+form div.panel-footer {
+	margin: -5px;
+}
+
+p.page {
+	margin-left: 12px;
+}
+
+p.text-about {
+	min-height: 60px;
+}
+
+.thumbnail img {
+	width: 140px; 
+}
+
+.indexblock {
+	display: inline-block;
+	vertical-align: top;
+	width: 195px;
+	text-align: center;
+}
+
+.indexblock .thumbnail img {
+	width: 200px; 
+}
+
+.indexblock p.text-about {
+	min-height: 100px;
+}
+
+.alert,.content-wrapper .well {
+	margin-bottom: 5px;
+}
+
+.header > .cart img {
+	width: 32px !important;
+	height: 32px !important;
+}
+
+div.first-part {
+	width: 218px;
+	margin-left: 5px;
+}
+
+.logo img {
+	width: 140px;
+}
+
+.first-part,.other-part,.cart {
+	height: 110px;
+	text-align: center;
+}
+
+.other-part {
+	width: 545px;
+}
+
+.cart {
+	width: 218px;
+}
+
+.caret.white {
+	border-top: 4px solid #fff;
+}
+
+#ticket_reply,#newticket {
+	height: 300px;
+	resize: none;
+	border-radius: 0px;
+	margin: 5px 0;
+}
+
+.modal-header {
+	color: #fff;
+	background-color: #428bca;
+	border-color: #428bca;
+	padding: 10px 15px;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+.modal-footer {
+	padding: 10px 5px;
+	margin: 0;
+	text-align: left;
+}

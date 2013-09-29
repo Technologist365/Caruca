@@ -1,0 +1,24 @@
+<h3>Hi, <?php echo $this->creds['client_firstname']; ?></h3>
+<h4>Thank you for shopping with <?php echo SYSTEM_NAME; ?>! You're awesome!</h4>
+
+<hr>
+
+<p>
+	Now, let's get back to your order. You've ordered items totalling 
+	<strong class="text text-success">
+		&pound;<?php echo $this->totalprice; ?>
+	</strong> today.
+</p>
+<div class="well well-sm">
+	<strong>How would you like to pay?</strong>
+	<form action="/checkout.php" method="post">
+		<input type="radio" name="payment" value="paypal"> <span class="text text-info">PayPal</span>
+		
+		<p></p>
+		<a href="/cart_cancel.php" class="btn btn-danger">Cancel</a>
+		<button type="submit" class="btn btn-success">Pay Now!</button>
+	</form>
+</div>
+
+
+

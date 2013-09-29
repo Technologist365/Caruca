@@ -1,0 +1,52 @@
+<?php if(empty($_GET)): ?>
+<?php $products = json_decode($this->products); foreach($products as $product): ?>
+<div class="well well-sm">
+  	<div class="inblk">
+    	<a class="thumbnail" data-lightbox="<?php echo $product->cat_id.'.'.$product->product_id;?>" href="/uploads/<?php echo $product->picture_name; ?>"
+			title="<?php echo $product->picture_caption; ?>">
+    		<img data-lightbox="<?php echo strtolower(str_replace(" ", "", $product->product_name));?>" src="/uploads/<?php echo $product->picture_name; ?>">
+    	</a>
+  	</div>
+	<div class="inblk text">
+		<h3 class="text text-info"><a href="/products.php?id=<?php echo $product->product_id; ?>"><?php echo $product->product_name; ?></a></h3>
+		<p class="text text-about"><?php echo $product->product_desc; ?></p>
+		<p class="text text-success">&pound;<?php echo $product->product_price; ?></p>
+		<p></p>
+		<button type="button" onclick="window.location='/products.php?id=<?php echo $product->product_id; ?>'" class="btn btn-default">View</button>
+	</div>
+</div>
+<?php endforeach; ?>
+<?php else: ?>
+<?php $products = json_decode($this->products); foreach($products as $product): ?>
+<div class="well well-sm">
+  	<div class="inblk">
+    	<a class="thumbnail" data-lightbox="<?php echo $product->cat_id.'.'.$product->product_id;?>" href="/uploads/<?php echo $product->picture_name; ?>"
+			title="<?php echo $product->picture_caption; ?>">
+    		<img data-lightbox="<?php echo strtolower(str_replace(" ", "", $product->product_name));?>" src="/uploads/<?php echo $product->picture_name; ?>">
+    	</a>
+  	</div>
+	<div class="inblk text">
+		<h3 class="text text-info"><a href="/products.php?id=<?php echo $product->product_id; ?>"><?php echo $product->product_name; ?></a></h3>
+		<p class="text text-about"><?php echo $product->product_desc; ?></p>
+		<p class="text text-success">&pound;<?php echo $product->product_price; ?></p>
+	</div>
+	<div class="otherpictures thumbnail">
+		<?php if(isset($this->picerror)): ?>
+    		<div class="alert alert-danger"><?php echo $this->picerror; ?></div>
+    	<?php else: ?>
+		<div class="dropdown-header"><strong>MORE PICTURES</strong></div>
+		<?php $pictures = json_decode($this->pictures); foreach($pictures as $picture): ?>
+		<a class="inblk thumbnail" data-lightbox="<?php echo $picture->product_id;?>" href="/uploads/<?php echo $picture->picture_name; ?>"
+			title="<?php echo $product->picture_caption; ?>">
+    		<img data-lightbox="<?php echo $picture->picture_name; ?>" src="/uploads/<?php echo $picture->picture_name; ?>">
+    	</a>
+    	<?php endforeach; ?>
+    	<?php endif; ?>
+	</div>
+	<br><?php /* ajax/addtocart.php?addToCart=<?php echo $_GET['id']; ?> */ ?>
+	Qty: <input type="text" id="qty" value="1" style="width: 32px;">
+	<a href="#" id="addToCart" data-cart="<?php echo $_GET['id']; ?>" onclick="return getQty($('#qty').val())" class="btn btn-success">Add to Cart</a>
+	<span id="cartMsg"></span>
+</div>
+<?php endforeach; ?>
+<?php endif; ?>

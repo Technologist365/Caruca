@@ -1,0 +1,18 @@
+<?php $products = json_decode($this->products); foreach($products as $product): ?>
+<div class="well well-sm">
+  	<div class="inblk">
+    	<a class="thumbnail" data-lightbox="<?php echo $product->cat_id.'.'.$product->product_id;?>" href="/uploads/<?php echo $product->picture_name; ?>"
+			title="<?php echo $product->picture_caption; ?>">
+    		<img data-lightbox="<?php echo strtolower(str_replace(" ", "", $product->product_name));?>" src="/uploads/<?php echo $product->picture_name; ?>">
+    	</a>
+  	</div>
+	<div class="inblk text">
+		<h3 class="text text-info"><a href="/products.php?id=<?php echo $product->product_id; ?>"><?php echo $product->product_name; ?></a></h3>
+		<p class="text text-about"><?php echo $product->product_desc; ?></p>
+		<p class="text text-success">&pound;<?php echo $product->product_price; ?></p>
+	</div>
+	<?php /*?><div class="panel-footer">
+		<button type="button" id="event" data-event="addToCart" onclick="return addToCart(<?php echo $product->product_id; ?>)" class="btn btn-success">Add to Cart</button>
+	</div>*/ ?>
+</div>
+<?php endforeach; ?>

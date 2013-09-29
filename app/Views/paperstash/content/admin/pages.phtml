@@ -1,0 +1,89 @@
+<span class="label label-primary"><a href="/admin/pages.php?action=new">New Page</a></span>
+<p></p>
+<?php if(empty($_GET)): ?>
+<table class="table table-condensed table-striped table-bordered">
+	<tr>
+		<th>ID</th>
+		<th>Unqiue</th>
+		<th>Title</th>
+		<th>Created (by)</th>
+		<th>Last Updated</th>
+		<th></th>
+	</tr>
+	<?php foreach(json_decode($this->pages) as $page): ?>
+	<tr>
+		<td><?php echo $page->page_id; ?></td>
+		<td><?php echo $page->page_unique; ?></td>
+		<td><?php echo $page->page_title; ?></td>
+		<td>
+			<?php echo date("D, jS M Y \\a\\t h:i:sa", strtotime($page->page_created)); ?>
+		</td>
+		<td>
+			<?php if($page->page_edited == '0000-00-00 00:00:00') {
+				echo "Never"; 
+			} else {
+				echo date("D, jS M Y \\a\\t h:i:sa", strtotime($page->page_edited)); 
+			} ?>
+		</td>
+		<td>
+			<span class="label label-primary"><a href="/admin/pages.php?action=edit&id=<?php echo $page->page_id; ?>">Edit</a></span>
+			<span class="label label-danger"><a href="/admin/pages.php?action=delete&id=<?php echo $page->page_id; ?>">Delete</a></span>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php elseif($_GET['action'] == 'edit'): ?>
+<?php foreach(json_decode($this->pages) as $page): ?>
+<div class="panel panel-primary">
+	<div class="panel-heading">Edit Page</div>
+	<form action="/admin/pages.php?<?php echo $_SERVER['QUERY_STRING']; ?>" method="post">
+		<div class="form-group">
+			<label for="title">Title</label>
+			<input type="text" name="title" id="title" class="form-control wd-lg" value="<?php echo $page->page_title; ?>">
+		</div>
+		<div class="form-group">
+			<label for="data">Content</label>
+			<textarea name="data" id="data" class="form-control wd-lg"><?php echo $page->page_data; ?></textarea>
+		</div>
+		<div class="form-group">
+			<label for="author">Author:</label>
+			<span class="text text-info"><?php echo $page->admin_firstname . ' ' . $page->admin_lastname; ?></span>
+			<input type="hidden" name="author" id="author" value="<?php echo $page->admin_id; ?>">
+		</div>
+		<div class="panel-footer">
+			<button type="submit" class="btn btn-success pull-right">Save Changed</button>
+			<div class="clearfix"></div>
+		</div>
+	</form>
+</div>
+<?php endforeach; ?>
+<?php elseif($_GET['action'] == 'new'): ?>
+<div class="panel panel-primary">
+	<div class="panel-heading">Edit Page</div>
+	<form action="/admin/pages.php?<?php echo $_SERVER['QUERY_STRING']; ?>" method="post">
+		<div class="form-group">
+			<label for="unique">Unqiue Identifier</label> <span class="text text-muted pull-right">Example: <em>about</em> or <em>terms</em></span>
+			<input type="text" name="unique" id="unique" class="form-control wd-lg">
+		</div>
+		<div class="form-group">
+			<label for="title">Title</label>
+			<input type="text" name="title" id="title" class="form-control wd-lg">
+		</div>
+		<div class="form-group">
+			<label for="data">Content</label>
+			<textarea name="data" id="data" class="form-control wd-lg"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="author">Author:</label>
+			<span class="text text-info">
+				<?php $ad = json_decode($this->ad); echo $ad->admin_firstname . ' ' . $ad->admin_lastname; ?>
+			</span>
+			<input type="hidden" name="author" id="author" value="<?php echo $ad->admin_id; ?>">
+		</div>
+		<div class="panel-footer">
+			<button type="submit" class="btn btn-success pull-right">Save Changed</button>
+			<div class="clearfix"></div>
+		</div>
+	</form>
+</div>
+<?php endif; ?>

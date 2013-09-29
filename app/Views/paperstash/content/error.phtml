@@ -1,0 +1,7 @@
+<?php if($_GET['err'] == '500'): ?>
+	<div class="alert alert-danger well-sm">There is an issue with our server which is preventing pages from being displayed. Try again in a few minutes.</div>
+<?php elseif($_GET['err'] == '404'): ?>
+	<div class="alert alert-danger well-sm">The requested page cannot be found. It's likely this page doesn't exist or there is a temporary error.</div>
+<?php elseif($_GET['err'] == '403'): ?>
+	<div class="alert alert-danger well-sm">Access denied.</div>
+<?php endif; ?>

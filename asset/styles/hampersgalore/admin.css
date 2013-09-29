@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+html,body {
+	background: #ccc;
+}
+
+.content-wrapper {
+	border-left: none;
+	width: 99%;
+	margin: 0 auto;
+	padding: 0 5px;
+}
+
+.panel {
+	width: 500px;
+	margin: 5px auto;
+}
+
+.panel form {
+	margin: 5px;
+}
+
+h1,h2,h3,h4,h5 {
+	margin: 0;
+	padding: 0;
+}
